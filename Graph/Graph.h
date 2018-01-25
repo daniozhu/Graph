@@ -4,6 +4,8 @@
 template <class T>
 struct Vertex
 { 
+    Vertex() {}
+    Vertex(const T& v) : Value(v) {}
 	T			Value;
 };
 

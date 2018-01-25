@@ -4,6 +4,7 @@
 #include "stdafx.h"
 
 #include "AdjMatrixGraph.h"
+#include "AdjListGraph.h"
 
 #include <memory>
 
@@ -21,10 +22,11 @@ int main()
 	V3---->V4
 	*/
 
-	std::unique_ptr<Graph<std::string>> graph {new AdjMatrixDiGraph<std::string>()};
+	//std::unique_ptr<Graph<std::string>> graph {new AdjMatrixDiGraph<std::string>()};
+    std::unique_ptr<Graph<std::string>> graph{ new AdjListGraph<std::string>() };
 
 	// Insert vextex
-	StringVex v1{ "V1" }, v2{ "V2" }, v3{ "V3" }, v4{ "V4" };
+    StringVex v1{ "V1" }, v2{ "V2" }, v3{ "V3" }, v4{ "V4" };
 	graph->InsertVex(std::move(v1));
 	graph->InsertVex(std::move(v2));
 	graph->InsertVex(std::move(v3));
@@ -44,10 +46,10 @@ int main()
 
 	// Add Arcs
 	// V1->V2
-	vexFrom.Value = "V1"; vexTo.Value = "V2";
+	vexFrom.Value = "V1"; vexTo.Value = "V3";
 	graph->InsertArc(vexFrom, vexTo);
 	//V1->V3
-	vexFrom.Value = "V1"; vexTo.Value = "V3";
+	vexFrom.Value = "V1"; vexTo.Value = "V2";
 	graph->InsertArc(vexFrom, vexTo);
 	//V3->V4
 	vexFrom.Value = "V3"; vexTo.Value = "V4";
@@ -56,15 +58,15 @@ int main()
 	vexFrom.Value = "V4"; vexTo.Value = "V1";
 	graph->InsertArc(vexFrom, vexTo);
 	
-	StringVex vex; vex.Value = "V2";
+	StringVex vex; vex.Value = "V1";
 	// Delete the vex
 	graph->DeleteVex(vex);
 
-	vex.Value = "V1";
+	vex.Value = "V3";
 	std::cout << vex.Value<<"'s adjacent vertexs: " << std::endl;
 	for (auto pAdjVex = graph->FirstAdjVex(vex); pAdjVex != nullptr; pAdjVex=graph->NextAdjVex(vex, *pAdjVex))
 	{
-		std::cout << (pAdjVex ? pAdjVex->Value : "null") << std::endl;
+		std::cout << (pAdjVex ? pAdjVex->Value : "null") << std::endl; // V4
 	}
 
 	system("pause");
