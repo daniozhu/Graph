@@ -1,8 +1,6 @@
 #pragma once
 #include "Graph.h"
 
-#include <string>
-
 extern const unsigned int MAX_VERTEX_NUM;
 
 struct ArcNode
@@ -23,8 +21,6 @@ struct VNode : public Vertex<T>
 	// T				Value 
 	ArcNode*		pfirstarc;
 };
-
-using VNodeStr = VNode<std::string>;
 
 template<class T>
 class AdjListGraph : public Graph<T>

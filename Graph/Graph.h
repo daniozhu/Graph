@@ -62,6 +62,5 @@ public:
 
 	// Breadth-First Search traverse the graph, start from vex and call Visitor once for each vertex
 	virtual void BFSTraverse(const Vertex<T>& vex, Vistor<T> visit) = 0;
-
 };
 
