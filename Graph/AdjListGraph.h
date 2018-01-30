@@ -57,10 +57,10 @@ public:
     virtual void DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>& vexTo) override;
 
     // Depth-First search traverse the graph, start from vex and call Visitor() once for each vertex
-    virtual void DFSTraverse(const Vertex<T>& vex, Vistor<T> visit) override;
+    virtual void DFSTraverse(const Vertex<T>& vex, Visitor<T> visit) override;
 
     // Breadth-First Search traverse the graph, start from vex and call Visitor once for each vertex
-    virtual void BFSTraverse(const Vertex<T>& vex, Vistor<T> visit) override;
+    virtual void BFSTraverse(const Vertex<T>& vex, Visitor<T> visit) override;
 
 
 private:
@@ -228,11 +228,11 @@ inline void AdjListGraph<T>::DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>
 }
 
 template<class T>
-inline void AdjListGraph<T>::DFSTraverse(const Vertex<T>& vex, Vistor<T> visit)
+inline void AdjListGraph<T>::DFSTraverse(const Vertex<T>& vex, Visitor<T> visit)
 {
 }
 
 template<class T>
-inline void AdjListGraph<T>::BFSTraverse(const Vertex<T>& vex, Vistor<T> visit)
+inline void AdjListGraph<T>::BFSTraverse(const Vertex<T>& vex, Visitor<T> visit)
 {
 }

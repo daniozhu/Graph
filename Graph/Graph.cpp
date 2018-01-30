@@ -20,9 +20,9 @@ using StringVex = Vertex<std::string>;
 
 int main()
 {
-	//std::unique_ptr<Graph<std::string>> graph {new AdjMatrixDiGraph<std::string>()};
+	std::unique_ptr<Graph<std::string>> graph {new AdjMatrixDiGraph<std::string>()};
    // std::unique_ptr<Graph<std::string>> graph{ new AdjListGraph<std::string>() };
-    std::unique_ptr<Graph<std::string>> graph{ new OrthListGraph<std::string>() };
+  //  std::unique_ptr<Graph<std::string>> graph{ new OrthListGraph<std::string>() };
 
 
 	// Insert vextex
@@ -59,12 +59,19 @@ int main()
 
     // Print all the arcs starting from V4
     StringVex vex; vex.Value = "V4";
+    std::cout << "Print all the adjacent vertexs from " << vex.Value << std::endl;
     for (auto pAdjVex = graph->FirstAdjVex(vex); pAdjVex != nullptr; pAdjVex = graph->NextAdjVex(vex, *pAdjVex))
     {
         std::cout << (pAdjVex ? pAdjVex->Value : "null") << std::endl;
     }
 
+    // Depth-First Traverse from V1
+    vex.Value = "V1";
+    std::cout << "Depth-First traverse from " << vex.Value << std::endl;
+    graph->DFSTraverse(vex, Visitor<std::string>());
+
 	// Delete the vex
+    std::cout << "Delete the vertex " << vex.Value << std::endl;
 	graph->DeleteVex(vex);
 
 	vex.Value = "V3";

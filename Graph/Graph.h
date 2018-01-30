@@ -10,14 +10,14 @@ struct Vertex
 };
 
 template<class T>
-class Vistor
+class Visitor
 {
 public:
 	bool operator()(const Vertex<T>& vex);
 };
 
 template<class T>
-inline bool Vistor<T>::operator()(const Vertex<T>& vex)
+inline bool Visitor<T>::operator()(const Vertex<T>& vex)
 {
 	std::cout << "Visiting vertx: " << vex.Value << std::endl;
 	return true;
@@ -58,9 +58,9 @@ public:
 	virtual void DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>& vexTo) = 0;
 
 	// Depth-First search traverse the graph, start from vex and call Visitor() once for each vertex
-	virtual void DFSTraverse(const Vertex<T>& vex,  Vistor<T> visit) = 0;
+	virtual void DFSTraverse(const Vertex<T>& vex,  Visitor<T> visit) = 0;
 
 	// Breadth-First Search traverse the graph, start from vex and call Visitor once for each vertex
-	virtual void BFSTraverse(const Vertex<T>& vex, Vistor<T> visit) = 0;
+	virtual void BFSTraverse(const Vertex<T>& vex, Visitor<T> visit) = 0;
 };
 
