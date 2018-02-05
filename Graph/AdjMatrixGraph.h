@@ -29,29 +29,17 @@ public:
 	AdjMatrixDiGraph();
 	virtual ~AdjMatrixDiGraph();
 
-	virtual int LocateVex(const Vertex<T>& vex) const override;
-	virtual T GetVex(const Vertex<T>& vex) const override;
-	virtual void PutVex(const Vertex<T>& vex, const T& val) override;
+    virtual const Vertex<T>* GetVex(int i) const override;
 	virtual const Vertex<T>* FirstAdjVex(const Vertex<T>& vex) const override;
 	virtual const Vertex<T>* NextAdjVex(const Vertex<T>& vex, const Vertex<T>& vexAdj) const override;
 	virtual void InsertVex(const Vertex<T>& vex) override;
 	virtual void InsertArc(const Vertex<T>& vexFrom, const Vertex<T>& vexTo) override;
 	virtual void DeleteVex(const Vertex<T>& vex) override;
 	virtual void DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>& vexTo) override;
-	virtual void DFSTraverse(const Vertex<T>& vex, Visitor<T> visit) override;
-	virtual void BFSTraverse(const Vertex<T>& vex, Visitor<T> visit) override;
-
-private:
-    void DFS(const Vertex<T>& vex);
 
 private:
 	Vertex<T>					m_vexs[MAX_VERTEX_NUM];
 	AdjMatrix						m_arcs;
-	int								m_vexnum;
-	int								m_arcnum;
-
-    Visitor<T>                   m_curVisitor;
-    bool                             m_bVisited[MAX_VERTEX_NUM];
 };
 
 /*
@@ -74,7 +62,6 @@ V4 |   1     0      0     0
 
 template<class T>
 inline AdjMatrixDiGraph<T>::AdjMatrixDiGraph()
-	: m_vexnum(0), m_arcnum(0)
 {
 }
 
@@ -84,33 +71,12 @@ inline AdjMatrixDiGraph<T>::~AdjMatrixDiGraph()
 }
 
 template<class T>
-int AdjMatrixDiGraph<T>::LocateVex(const Vertex<T>& vex) const
+ const Vertex<T>* AdjMatrixDiGraph<T>::GetVex(int i) const
 {
-	for (int i = 0; i < m_vexnum; ++i)
-	{
-		if (m_vexs[i].Value == vex.Value)
-			return i;
-	}
+    if (i < 0 || i> m_vexnum)
+        return nullptr;
 
-	return -1;
-}
-
-template<class T>
-T AdjMatrixDiGraph<T>::GetVex(const Vertex<T>& vex) const
-{
-	int i = LocateVex(vex);
-	if (i != -1)
-		return m_vexs[i].Value;
-
-	return T();
-}
-
-template<class T>
-void AdjMatrixDiGraph<T>::PutVex(const Vertex<T>& vex, const T & val)
-{
-	int i = LocateVex(vex);
-	if (i != -1)
-		m_vexs[i].Value = val;
+    return &m_vexs[i];
 }
 
 template<class T>
@@ -203,55 +169,5 @@ void AdjMatrixDiGraph<T>::DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>& v
 		m_arcs[i][j]._pinfo = nullptr;
 		m_arcnum--;
 	}
-}
-
-template<class T>
-void AdjMatrixDiGraph<T>::DFSTraverse(const Vertex<T>& vex, Visitor<T> visit)
-{
-    // Reset flag and current visitor
-    for (int i = 0; i < m_vexnum; ++i) m_bVisited[i] = false;
-    m_curVisitor = visit;
-    
-    DFS(vex);
-    for (int i = 0; i < m_vexnum; ++i)
-    {
-        if (!m_bVisited[i])  DFS(m_vexs[i]);
-    }
-}
-
-template<class T>
-void AdjMatrixDiGraph<T>::DFS(const Vertex<T>& vex)
-{
-    const int it = LocateVex(vex);
-    if (it == -1) return;
-
-    // Visit the vex
-    if (!m_bVisited[it])
-    {
-        m_bVisited[it] = true;
-        m_curVisitor(vex);
-    }
-
-
-    for (auto p = FirstAdjVex(vex); p != nullptr; p = NextAdjVex(vex, *p))
-    {
-        const int i = LocateVex(*p);
-        if (!m_bVisited[i])
-        {
-            m_bVisited[i] = true;
-
-            // Visit the adjacent vertex
-            const auto& vex = m_vexs[i];
-            m_curVisitor(vex);
-
-            // DFS from the vertex
-            DFS(vex);
-        }
-    }
-}
-
-template<class T>
-void AdjMatrixDiGraph<T>::BFSTraverse(const Vertex<T>& vex, Visitor<T> visit)
-{
 }
 

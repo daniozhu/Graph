@@ -21,8 +21,8 @@ using StringVex = Vertex<std::string>;
 int main()
 {
 	std::unique_ptr<Graph<std::string>> graph {new AdjMatrixDiGraph<std::string>()};
-   // std::unique_ptr<Graph<std::string>> graph{ new AdjListGraph<std::string>() };
-  //  std::unique_ptr<Graph<std::string>> graph{ new OrthListGraph<std::string>() };
+   //std::unique_ptr<Graph<std::string>> graph{ new AdjListGraph<std::string>() };
+  //std::unique_ptr<Graph<std::string>> graph{ new OrthListGraph<std::string>() };
 
 
 	// Insert vextex
@@ -65,12 +65,18 @@ int main()
         std::cout << (pAdjVex ? pAdjVex->Value : "null") << std::endl;
     }
 
-    // Depth-First Traverse from V1
-    vex.Value = "V1";
+    // Depth-First Traverse 
+    vex.Value = "V3";
     std::cout << "Depth-First traverse from " << vex.Value << std::endl;
     graph->DFSTraverse(vex, Visitor<std::string>());
 
+    // Breadth-First Traverse
+    std::cout << "Breadth-First traverse from " << vex.Value << std::endl;
+    graph->BFSTraverse(vex, Visitor<std::string>());
+
+
 	// Delete the vex
+    vex.Value = "V1";
     std::cout << "Delete the vertex " << vex.Value << std::endl;
 	graph->DeleteVex(vex);
 

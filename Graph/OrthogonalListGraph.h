@@ -31,14 +31,8 @@ public:
     OrthListGraph();
     virtual ~OrthListGraph();
 
-    // Get the position of the vertex, -1 not exist.
-    virtual int LocateVex(const Vertex<T>& vex) const override;
-
-    // Get vertex value
-    virtual T GetVex(const Vertex<T>& vex) const override;
-
-    // Set vertex value
-    virtual void PutVex(const Vertex<T>& vex, const T& val) override;
+    // Get vertex from index
+    virtual const Vertex<T>* GetVex(int i) const override;
 
     // Get the first adjcent vertex of the given vex
     virtual const Vertex<T>* FirstAdjVex(const Vertex<T>& vex) const override;
@@ -58,23 +52,12 @@ public:
     // Delete an arc between the two vertexs
     virtual void DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>& vexTo) override;
 
-    // Depth-First search traverse the graph, start from vex and call Visitor() once for each vertex
-    virtual void DFSTraverse(const Vertex<T>& vex, Visitor<T> visit) override;
-
-    // Breadth-First Search traverse the graph, start from vex and call Visitor once for each vertex
-    virtual void BFSTraverse(const Vertex<T>& vex, Visitor<T> visit) override;
-
-
 private:
     OLNode<T>	    m_vexs[MAX_VERTEX_NUM];
-    int				    m_vexnum;
-    int				    m_arcnum;
-
 };
 
 template<class T>
 inline OrthListGraph<T>::OrthListGraph()
-    :   m_vexnum(0), m_arcnum(0)
 {
 }
 
@@ -84,25 +67,12 @@ inline OrthListGraph<T>::~OrthListGraph()
 }
 
 template<class T>
-inline int OrthListGraph<T>::LocateVex(const Vertex<T>& vex) const
+inline const Vertex<T>* OrthListGraph<T>::GetVex(int i) const
 {
-    for (int i = 0; i < m_vexnum; ++i)
-    {
-        if (vex.Value == m_vexs[i].Value)
-            return i;
-    }
-    return -1;
-}
+    if (i<0 || i > m_vexnum)
+        return nullptr;
 
-template<class T>
-inline T OrthListGraph<T>::GetVex(const Vertex<T>& vex) const
-{
-    return T();
-}
-
-template<class T>
-inline void OrthListGraph<T>::PutVex(const Vertex<T>& vex, const T & val)
-{
+    return &m_vexs[i];
 }
 
 template<class T>
@@ -249,15 +219,5 @@ inline void OrthListGraph<T>::DeleteVex(const Vertex<T>& vex)
 
 template<class T>
 inline void OrthListGraph<T>::DeleteArc(const Vertex<T>& vexFrom, const Vertex<T>& vexTo)
-{
-}
-
-template<class T>
-inline void OrthListGraph<T>::DFSTraverse(const Vertex<T>& vex, Visitor<T> visit)
-{
-}
-
-template<class T>
-inline void OrthListGraph<T>::BFSTraverse(const Vertex<T>& vex, Visitor<T> visit)
 {
 }
